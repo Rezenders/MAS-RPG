@@ -31,4 +31,11 @@ Status::class(fighter).
 		!initial_position;
 		.
 
++!attack_monsters[scheme(Sch)]
+	<- .print("Start scheme ",Sch," for player");
+	.
+
 { include("common-players.asl") }
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
+{ include("$jacamoJar/templates/org-obedient.asl") }
