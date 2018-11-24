@@ -2,8 +2,6 @@ Status::level(1).
 Status::exp(0).
 Status::class(fighter).
 
-!spawn_adventurer.
-
 +!set_attributes
 	<- 	.random(C); .random(S);	.random(I); .random(D);
 		+Attr::constitution(8 + math.round(C*5) mod 5);
@@ -21,14 +19,20 @@ Status::class(fighter).
 	<-	+Equip::weapon(sword, 1, 8);
 		+Equip::armor(7);
 		.
-+!initial_position
-	<-	.random(X); .random(Y);
-		+position( math.round(X*6) mod 6, math.round(Y*6) mod 6).
 
-+!spawn_adventurer
++!enter_adventurer[scheme(Sch)]
+	<-	?goalArgument(Sch,setupTable,"Id",Id);
+		lookupArtifact(Id,ArtId);
+		Sch::focus(ArtId);
+		.random(X); .random(Y);
+		Sch::enter_map( math.round(X*6) mod 6, math.round(Y*6) mod 6);
+		// +position( math.round(X*6) mod 6, math.round(Y*6) mod 6);
+		.
+
+
++!create_adventurer[scheme(Sch)]
 	<-	!set_attributes;
 		!equip_initial_items;
-		!initial_position;
 		.
 
 +!attack_monsters[scheme(Sch)]

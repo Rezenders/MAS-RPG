@@ -13,14 +13,20 @@ public class MapArtifact extends Artifact {
 
 	}
 
+	@OPERATION public void enter_map(int h, int v){
+		String agentName = getCurrentOpAgentId().getAgentName();
+		Position agentPos = new Position(h,v);
+		playersPosition.put(agentName, agentPos);
+	}
+
 }
 
 class Position{
 	int horizontal;
 	int vertical;
 
-	// public void Positiont(int h,int v){
-	// 	horizontal = h;
-	// 	vertical = v;
-	// }
+	public Position(int h, int v){
+		horizontal = h;
+		vertical = v;
+	}
 }

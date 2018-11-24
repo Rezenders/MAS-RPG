@@ -15,7 +15,7 @@
 	<-	.print("criando table");
 		?goalArgument(Sch,setupTable,"Id",Id)
 		makeArtifact(Id, "rpg.MapArtifact",[], ArtId);
-		Map::focus(ArtId);
+		Sch::focus(ArtId);
 		.
 
 +!teste
