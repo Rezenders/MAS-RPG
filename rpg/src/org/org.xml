@@ -37,13 +37,27 @@
 </structural-specification>
 
 <functional-specification>
-    <scheme id="playRpg">
-        <goal id="battle">
-            <plan operator="parallel">
-                <goal id="attack_monsters"/>
-                <goal id="attack_adventurers"/>
+    <scheme id="rpgSch">
+        <goal id="playRpg">
+            <argument id="Id" />
+            <plan operator="sequence">
+                <goal id="setupTable">
+                    <plan operator="sequence">
+                        <goal id="create_table" />
+                    </plan>
+                </goal>
+                <goal id="battle">
+                    <plan operator="sequence">
+                        <goal id="attack_monsters"/>
+                        <goal id="attack_adventurers"/>
+                    </plan>
+                </goal>
             </plan>
         </goal>
+
+        <mission id="mSetupTable" min="1" max="1">
+            <goal id="create_table"/>
+        </mission>
 
         <mission id="mSlayMonsters" min="1" max="1">
             <goal id="attack_monsters"/>
@@ -55,8 +69,9 @@
 </functional-specification>
 
 <normative-specification>
-    <norm id="n1" type="obligation" role="adventurer" mission="mSlayMonsters"/>
-    <norm id="n2" type="obligation" role="monster" mission="mSlayAdventurers"/>
+    <norm id="n1" type="obligation" role="master" mission="mSetupTable"/>
+    <norm id="n2" type="obligation" role="adventurer" mission="mSlayMonsters"/>
+    <norm id="n3" type="obligation" role="monster" mission="mSlayAdventurers"/>
 </normative-specification>
 
 </organisational-specification>
