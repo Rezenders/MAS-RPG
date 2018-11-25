@@ -36,8 +36,17 @@ Status::class(fighter).
 		.
 
 +!attack_monsters[scheme(Sch)]
-	<- .print("Start scheme ",Sch," for player");
-	.
+	<- .print("Attacking Monsters");
+		!find_nearest_monster(Monster);
+		.print("Destroying ", Monster);
+		.
+
++!find_nearest_monster(Monster)
+	<- .my_name(Me); .term2string(Me, SMe); ?Status::adventurer(SMe, X, Y);
+		.findall([((X-X2)**2 + (Y-Y2)**2)**(1/2), N],Sch::monster(N, X2, Y2), Dists);
+		.min(Dists,[D, Monster]);
+		.
+
 
 { include("common-players.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }
