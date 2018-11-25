@@ -2,9 +2,7 @@ Status::hp(5).
 Status::armor_points(12).
 Equip::weapon(dagger, 1, 4, 2).
 
-!spawn_monster.
-
-+!spawn_monster
++!init_monster
 	<-	+Attr::constitution(9);
 		+Attr::strength(7);
 		+Attr::intelligence(7);
