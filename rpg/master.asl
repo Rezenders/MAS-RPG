@@ -1,3 +1,5 @@
+monsters_spawned(0).
+
 !start_game("table1").
 
 +!start_game(Id)
@@ -18,15 +20,14 @@
 		Sch::focus(ArtId);
 		.
 
-+!teste
-	<-	makeArtifact(SchName, "ora4mas.nopl.SchemeBoard",["src/org/org.xml", playRpg],SchArtId);
-		debug(inspector_gui(on))[artifact_id(SchArtId)];
-		setArgumentValue(playRpg,"Id",Id)[artifact_id(SchArtId)];
-		.my_name(Me); setOwner(Me)[artifact_id(SchArtId)];  // I am the owner of this scheme!
-		focus(SchArtId);
-		addScheme(SchName);  // set the group as responsible for the scheme
-		.
-
++!spawn_monster[scheme(Sch)]
+    <-  ?monsters_spawned(N);
+        .concat("kobold_",N, Mn);
+        .random(X); .random(Y);
+        Sch::add_monsters(Mn, 6+ math.round(X*6) mod 6, 6 + math.round(Y*6) mod 6);
+        .send(kobold, achieve, init_monster); //TODO: create agent monster dynamicly
+        -+monsters_spawned(N+1); //usar namespace?
+        .
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
