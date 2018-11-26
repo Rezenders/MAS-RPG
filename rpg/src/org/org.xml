@@ -50,7 +50,7 @@
                     </plan>
                 </goal>
                 <goal id="battle">
-                    <plan operator="sequence">
+                    <plan operator="parallel">
                         <goal id="battle_monsters"/>
                         <goal id="battle_adventurers"/>
                     </plan>
