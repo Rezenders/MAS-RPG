@@ -2,8 +2,12 @@ Status::hp(5).
 Status::armor_points(12).
 Equip::weapon(dagger, 1, 4, 2).
 
+!init_monster.
+
 +!init_monster
-	<-	+Attr::constitution(9);
+	<-	joinWorkspace("rpgOrg",Workspace);
+		adoptRole("monster");
+		+Attr::constitution(9);
 		+Attr::strength(7);
 		+Attr::intelligence(7);
 		+Attr::dexterity(15);

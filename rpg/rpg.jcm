@@ -2,12 +2,10 @@ mas rpg {
 
     agent master
     agent kokuryu : adventurer.asl
-    agent kobold : monster.asl
 
-    organisation aorg : org.xml {
+    organisation rpgOrg : org.xml {
         group agrp : rpgGroup {
             players:    master  master
-                        kobold   monster
                         kokuryu   adventurer
             debug
         }

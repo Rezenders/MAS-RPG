@@ -21,12 +21,13 @@ monsters_spawned(0).
 
 +!spawn_monster[scheme(Sch)]
     <-  ?monsters_spawned(N);
-        // .concat("kobold_",N, Mn); //TODO: Arrumar nome
+        .concat("kobold_",N, Name);
+        .create_agent(Name, "monster.asl");
         .random(X); .random(Y);
-        Sch::add_monsters("kobold", 6+ math.round(X*6) mod 6, 6 + math.round(Y*6) mod 6); //TODO: Arrumar nome
-        .send(kobold, achieve, init_monster); //TODO: create agent monster dynamically
+        Sch::add_monsters(Name, 6+ math.round(X*6) mod 6, 6 + math.round(Y*6) mod 6);
         -+monsters_spawned(N+1); //usar namespace?
         .
+
 +!test_attack_monster(Monster, Attack, Damage, Sch)[source(S)]//TODO:Enviar mensagem de volta para adventurer contando o status do monstro
     <-  .send(Monster, askOne, Status::armor_points(X), armor_points(AP));
         if(Attack>=AP){
