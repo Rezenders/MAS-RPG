@@ -27,24 +27,32 @@ monsters_spawned(0).
         .random(X); .random(Y);
         Sch::add_monsters(Name, 6+ math.round(X*6) mod 6, 6 + math.round(Y*6) mod 6);
         -+monsters_spawned(N+1); //usar namespace?
+        .suspend;
         .
 
 +!test_attack(Receiver, Attack, Damage, Sch)[source(Source)]//TODO:Enviar mensagem de volta para adventurer contando o status do monstro
     <-  .send(Receiver, askOne, Status::armor_points(X), armor_points(AP));
         if(Attack>=AP){
             .send(Receiver, askOne, Status::hp(X),hp(HP));
-            .print(Source," rolls ",Attack," and hit ", Receiver);
+            .print(Source," rolls ", Attack," and hits ", Receiver);
             .print(Source," deals ", Damage," damage to ", Receiver);
             if(HP-Damage > 0){
                 .send(Receiver, achieve, took_damage(Damage));
             }else{
-                .send(Receiver, tell, Status::dead[killer(Source)]);
-                // Sch::remove_monsters(Receiver);
+                .print(Receiver," died an honarable death!");
+                Sch::remove_from_map(Receiver);
+                .kill_agent(Receiver);
             }
         }else{
             .print(Source," rolls ",Attack," and misses ", Receiver);
         }
+        .send(Source, achieve, resume(attack(Receiver)[scheme(Sch)]));
         .
+
++!resume(G)
+	<-	.resume(G);
+		.
+
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
