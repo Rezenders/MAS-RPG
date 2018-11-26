@@ -9,9 +9,21 @@ Equip::weapon(dagger, 1, 4, 2).
 		+Attr::dexterity(15);
 		.
 
-+!attack_adventurers[scheme(Sch)]
-	<- 	.print("Start scheme ",Sch," for monster");
++!battle_adventurers[scheme(Sch)] : not Status::dead
+	<- 	.print("[Translation from unknown language] You will be obliterated Adventurer!!!");
 		.
+
++!battle_adventurers[scheme(Sch)]
+	<- .print("Already dead").
+
++Status::dead[killer(Adventurer)]
+	<- .print("[Translation from unknown language] (Dying)I will haunt your dreams ",Adventurer, "!!!!!!").
+
++!took_damage(Damage)
+	<-	?Status::hp(HP);
+		-+Status::hp(HP-Damage);
+		.
+
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

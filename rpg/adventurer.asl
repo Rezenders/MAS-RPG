@@ -26,19 +26,18 @@ Status::class(fighter).
 		Sch::focus(ArtId);
 		.random(X); .random(Y);
 		Sch::enter_map( math.round(X*6) mod 6, math.round(Y*6) mod 6);
-		// +position( math.round(X*6) mod 6, math.round(Y*6) mod 6);
 		.
-
 
 +!create_adventurer[scheme(Sch)]
 	<-	!set_attributes;
 		!equip_initial_items;
 		.
 
-+!attack_monsters[scheme(Sch)]
-	<- .print("Attacking Monsters");
-		!find_nearest_monster(Monster);
-		.print("Destroying ", Monster);
++!battle_monsters[scheme(Sch)]
+	<- 	!find_nearest_monster(Monster);
+		.print("Prepare to be destroyed ", Monster, "!!!!");
+		.random(D);
+		!attack_monster(Monster)[scheme(Sch)];
 		.
 
 +!find_nearest_monster(Monster)
@@ -47,6 +46,12 @@ Status::class(fighter).
 		.min(Dists,[D, Monster]);
 		.
 
++!attack_monster(Monster)[scheme(Sch)]
+	<-	.random(D); //TODO: implementar artefato para dados
+		.random(D2); ?Attr::strength_mod(SM);
+		Attack = (math.round(D*21) mod 21); Damage = (SM + math.round(D2*9) mod 9);
+		.send(master, achieve, test_attack_monster(Monster,Attack ,Damage, Sch));
+		.
 
 { include("common-players.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }
