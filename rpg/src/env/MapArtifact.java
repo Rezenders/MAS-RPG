@@ -31,11 +31,18 @@ public class MapArtifact extends Artifact {
 		defineObsProperty("monster", monsterName, h, v);
 	}
 
+	@OPERATION
+	public void remove_monsters(String monsterName){
+		Position pos = monstersPosition.get(monsterName);
+		monstersPosition.remove(monsterName);
+		removeObsPropertyByTemplate("monster", monsterName, pos.horizontal, pos.vertical);
+	}
+
 }
 
 class Position{
-	int horizontal;
-	int vertical;
+	public int horizontal;
+	public int vertical;
 
 	public Position(int h, int v){
 		horizontal = h;
