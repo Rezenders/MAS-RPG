@@ -34,14 +34,13 @@ Status::class(fighter).
 		.
 
 +!battle_monsters[scheme(Sch)]
-	<- 	!find_nearest_monster(Monster);
+	<- 	!find_nearest_monster(Monster)[scheme(Sch)];
 		.print("Prepare to be destroyed ", Monster, "!!!!");
-		.random(D);
 		!attack_monster(Monster)[scheme(Sch)];
 		.
 
-+!find_nearest_monster(Monster)
-	<- .my_name(Me); .term2string(Me, SMe); ?Status::adventurer(SMe, X, Y);
++!find_nearest_monster(Monster)[scheme(Sch)]
+	<- .my_name(Me); .term2string(Me, SMe); ?Sch::adventurer(SMe, X, Y);
 		.findall([((X-X2)**2 + (Y-Y2)**2)**(1/2), N],Sch::monster(N, X2, Y2), Dists);
 		.min(Dists,[D, Monster]);
 		.
@@ -49,8 +48,13 @@ Status::class(fighter).
 +!attack_monster(Monster)[scheme(Sch)]
 	<-	.random(D); //TODO: implementar artefato para dados
 		.random(D2); ?Attr::strength_mod(SM);
-		Attack = (math.round(D*21) mod 21); Damage = (SM + math.round(D2*9) mod 9);
-		.send(master, achieve, test_attack_monster(Monster,Attack ,Damage, Sch));
+		Attack = (math.round(D*21) mod 21); Damage = (SM + math.round(D2*9) mod 9); //TODO:Tirar informação dos dados a partir da weapon
+		.send(master, achieve, test_attack(Monster,Attack ,Damage, Sch));
+		.
+
++!took_damage(Damage)
+	<-	?Status::hp(HP);
+		-+Status::hp(HP-Damage);
 		.
 
 { include("common-players.asl") }

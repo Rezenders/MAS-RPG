@@ -23,25 +23,26 @@ monsters_spawned(0).
     <-  ?monsters_spawned(N);
         .concat("kobold_",N, Name);
         .create_agent(Name, "monster.asl");
+        .send(Name, achieve, init_monster[scheme(Sch)]);
         .random(X); .random(Y);
         Sch::add_monsters(Name, 6+ math.round(X*6) mod 6, 6 + math.round(Y*6) mod 6);
         -+monsters_spawned(N+1); //usar namespace?
         .
 
-+!test_attack_monster(Monster, Attack, Damage, Sch)[source(S)]//TODO:Enviar mensagem de volta para adventurer contando o status do monstro
-    <-  .send(Monster, askOne, Status::armor_points(X), armor_points(AP));
++!test_attack(Receiver, Attack, Damage, Sch)[source(Source)]//TODO:Enviar mensagem de volta para adventurer contando o status do monstro
+    <-  .send(Receiver, askOne, Status::armor_points(X), armor_points(AP));
         if(Attack>=AP){
-            .send(Monster, askOne, Status::hp(X),hp(HP));
-            .print(S," rolled ",Attack," and hit ", Monster);
-            .print(S," dealed ", Damage," damage to ", Monster);
+            .send(Receiver, askOne, Status::hp(X),hp(HP));
+            .print(Source," rolls ",Attack," and hit ", Receiver);
+            .print(Source," deals ", Damage," damage to ", Receiver);
             if(HP-Damage > 0){
-                .send(Monster, achieve, took_damage(Damage));
+                .send(Receiver, achieve, took_damage(Damage));
             }else{
-                .send(Monster, tell, Status::dead[killer(S)]);
-                Sch::remove_monsters(Monster);
+                .send(Receiver, tell, Status::dead[killer(Source)]);
+                // Sch::remove_monsters(Receiver);
             }
         }else{
-            .print(S," rolled ",Attack," and missed ", Monster);
+            .print(Source," rolls ",Attack," and misses ", Receiver);
         }
         .
 { include("$jacamoJar/templates/common-cartago.asl") }
