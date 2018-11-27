@@ -2,6 +2,8 @@ Status::level(1).
 Status::exp(0).
 Status::class(fighter).
 
+!name.
+
 +!set_attributes
 	<- 	.random(C); .random(S);	.random(I); .random(D);
 		+Attr::constitution(11 + math.round(C*5) mod 5);
@@ -41,13 +43,14 @@ Status::class(fighter).
 
 +!play_turn[source(Source),scheme(Sch)]
 	<-	!find_nearest_monster(Monster)[scheme(Sch)];
+		!move_towards_monster(Monster)[scheme(Sch)];
 		!attack(Monster)[scheme(Sch)];
 		.my_name(Me);
 		.send(Source, achieve, resume(inform_turn(Me))[scheme(Sch)]);
 		.
 
 +!find_nearest_monster(Monster)[scheme(Sch)]
-	<- .my_name(Me); .term2string(Me, SMe); ?Sch::adventurer(SMe, X, Y);
+	<- 	.my_name(Me); .term2string(Me, SMe); ?Sch::adventurer(SMe, X, Y);
 		.findall([((X-X2)**2 + (Y-Y2)**2)**(1/2), N],Sch::monster(N, X2, Y2), Dists);
 		if(Dists  \== []){
 			.min(Dists,[D, Monster]);
@@ -56,7 +59,22 @@ Status::class(fighter).
 		}
 		.
 
-+!attack(Monster)[scheme(Sch)] : Monster \== []
++!move_towards_monster(Monster)[scheme(Sch)]: not in_range(Monster)
+	<-	.print("I'm going to catch you ", Monster);
+		?my_name(Me); ?Sch::adventurer(Me, X, Y);
+		?Sch::monster(Monster, X2, Y2);
+		!move_possibilities(X, Y, P);
+		!calc_distances(X2, Y2, P, Dists);
+		!best_move(Dists, BX, BY);
+		.print("Moving from [",X,",",Y,"] to ","[",BX,",",BY,"]");
+		Sch::move(Me, BX, BY);
+		.
+
++!move_towards_monster(Monster)[scheme(Sch)].
+
+
+
++!attack(Monster)[scheme(Sch)] : Monster \== [] & in_range(Monster)
 	<-	.print("Prepare to be destroyed ", Monster, "!!!!");
 		.random(D); //TODO: implementar artefato para dados
 		.random(D2); ?Attr::strength_mod(SM);
@@ -64,6 +82,12 @@ Status::class(fighter).
 		.send(master, achieve, test_attack(Monster,Attack ,Damage, Sch));
 		.suspend;
 		.
++!attack(Monster)[scheme(Sch)]
+	<-	!move_towards_monster(Monster)[scheme(Sch)].
+
+in_range(Monster) :- my_name(Me) & Sch::adventurer(Me, H, V) & Sch::monster(Monster, H2, V2) & adj(H, V, H2, V2).
+
+
 
 { include("common-players.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }

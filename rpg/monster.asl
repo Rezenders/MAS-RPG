@@ -2,6 +2,7 @@ Status::hp(5).
 Status::armor_points(12).
 Equip::weapon(dagger, 1, 4, 2).
 
+!name.
 
 +!init_monster[scheme(Sch)]
 	<-	joinWorkspace("rpgOrg",Workspace);
@@ -29,6 +30,7 @@ Equip::weapon(dagger, 1, 4, 2).
 
 +!play_turn[source(Source),scheme(Sch)]
 	<-	!find_nearest_adventurer(Adventurer)[scheme(Sch)];
+		!move_towards_adventurer(Adventurer)[scheme(Sch)];
 		!attack(Adventurer)[scheme(Sch)];
 		.my_name(Me);
 		.send(Source, achieve, resume(inform_turn(Me))[scheme(Sch)]);
@@ -44,7 +46,20 @@ Equip::weapon(dagger, 1, 4, 2).
 		}
 		.
 
-+!attack(Adventurer)[scheme(Sch)] : Adventurer \== []
++!move_towards_adventurer(Adventurer)[scheme(Sch)]: not in_range(Adventurer)
+	<-	.print("[Translation from unknown language] Run while you can ", Adventurer);
+		?my_name(Me); ?Sch::monster(Me, X, Y);
+		?Sch::adventurer(Adventurer, X2, Y2);
+		!move_possibilities(X, Y, P);
+		!calc_distances(X2, Y2, P, Dists);
+		!best_move(Dists, BX, BY);
+		.print("Moving from [",X,",",Y,"] to ","[",BX,",",BY,"]");
+		Sch::move(Me, BX, BY);
+		.
+
++!move_towards_adventurer(Adventurer)[scheme(Sch)].
+
++!attack(Adventurer)[scheme(Sch)] : Adventurer \== [] & in_range(Adventurer)
 	<-	.print("[Translation from unknown language] You will be obliterated ",Adventurer, "!!!");
 		.random(D); //TODO: implementar artefato para dados
 		.random(D2);
@@ -53,6 +68,11 @@ Equip::weapon(dagger, 1, 4, 2).
 		.send(master, achieve, test_attack(Adventurer, Attack ,Damage, Sch));
 		.suspend;
 		.
+
++!attack(Adventurer)[scheme(Sch)]
+	<-	!move_towards_adventurer(Adventurer)[scheme(Sch)].
+
+in_range(Adventurer) :- my_name(Me) & Sch::adventurer(Adventurer, H, V) & Sch::monster(Me, H2, V2) & adj(H, V, H2, V2).
 
 
 { include("common-players.asl") }

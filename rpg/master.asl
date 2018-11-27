@@ -53,11 +53,13 @@ monsters_spawned(0).
 +!manage_turns[scheme(Sch)]
     <- .print("Battle ended").
 
-+!delegate_turns([H|T])[scheme(Sch)]
++!delegate_turns([H|T])[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NA \== 0 & NM \== 0
     <-  H =[I,Name];
         !inform_turn(Name);
         !delegate_turns(T)[scheme(Sch)];
         .
+
++!delegate_turns([H|T])[scheme(Sch)].
 
 +!delegate_turns([])[scheme(Sch)].
 
