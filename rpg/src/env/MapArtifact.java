@@ -45,25 +45,26 @@ public class MapArtifact extends Artifact {
 	}
 
 	@OPERATION
-	public void remove_from_map(String remove_from_map){
-		Position posm = monstersPosition.get(remove_from_map);
-		Position posp = adventurersPosition.get(remove_from_map);
+	public void remove_from_map(String agentName){
+		Position posm = monstersPosition.get(agentName);
+		Position posp = adventurersPosition.get(agentName);
 		if(posm!=null){
-			monstersPosition.remove(remove_from_map);
-			removeObsPropertyByTemplate("monster", remove_from_map, posm.horizontal, posm.vertical);
+			monstersPosition.remove(agentName);
+			removeObsPropertyByTemplate("monster", agentName, posm.horizontal, posm.vertical);
 			monstersKilled = monstersKilled + 1;
 
 			nMonster = nMonster - 1;
 			getObsProperty("nMonster").updateValue(nMonster);
 		}else if(posp!=null){
-			adventurersPosition.remove(remove_from_map);
-			removeObsPropertyByTemplate("adventurer", remove_from_map, posp.horizontal, posp.vertical);
+			adventurersPosition.remove(agentName);
+			removeObsPropertyByTemplate("adventurer", agentName, posp.horizontal, posp.vertical);
 			adventurersKilled = adventurersKilled +1;
 
 			nAdventurer = nAdventurer -1;
 			getObsProperty("nAdventurer").updateValue(nAdventurer);
 		}
 	}
+
 
 }
 
