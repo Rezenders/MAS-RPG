@@ -13,7 +13,6 @@ Equip::weapon(dagger, 1, 4, 2).
 		Sch::focus(ArtId);
 
 		adoptRole("monster");
-		// commitMission(mSlayAdventurers);
 
 		+Attr::constitution(9);
 		+Attr::strength(7);

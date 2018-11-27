@@ -13,7 +13,7 @@ monsters_spawned(0).
 		.
 
 +!create_table[scheme(Sch)]
-	<-	.print("Table created, let's play adventures.");
+	<-	.print("Table created, let's play adventures. \n");
 		?goalArgument(Sch,setupTable,"Id",Id)
 		makeArtifact(Id, "rpg.MapArtifact",[], ArtId);
 		Sch::focus(ArtId);
@@ -39,12 +39,17 @@ monsters_spawned(0).
         .
 
 +!manage_turns[scheme(Sch)]
+    : .findall(A,Sch::adventurer(A,X,Y),LA) & .findall(M,Sch::monster(M,X2,Y2),LM) & (LA \== [] & LM \== [])
     <-  .findall([Init, Name], Sch::initiative(Name, Init), Uinit);
         .sort(Uinit, Oinit);
         .reverse(Oinit, Turns);
         !delegate_turns(Turns)[scheme(Sch)];
+        .print("Turn ended \n");
+        !manage_turns[scheme(Sch)];
         .
 
++!manage_turns[scheme(Sch)]
+    <- .print("Battle ended").
 
 +!delegate_turns([H|T])[scheme(Sch)]
     <-  H =[I,Name];
@@ -54,12 +59,15 @@ monsters_spawned(0).
 
 +!delegate_turns([])[scheme(Sch)].
 
-+!inform_turn(Name)
++!inform_turn(Name) : .term2string(Name, SName) & (Sch::adventurer(SName,X,Y) | Sch::monster(SName,X,Y))
     <-  .send(Name, achieve, play_turn[scheme(Sch)]);
         .suspend;
         .
 
-+!test_attack(Receiver, Attack, Damage, Sch)[source(Source)]//TODO:Enviar mensagem de volta para adventurer contando o status do monstro
+
++!inform_turn(Name).
+
++!test_attack(Receiver, Attack, Damage, Sch)[source(Source)]
     <-  .send(Receiver, askOne, Status::armor_points(X), armor_points(AP));
         if(Attack>=AP){
             .send(Receiver, askOne, Status::hp(X),hp(HP));
