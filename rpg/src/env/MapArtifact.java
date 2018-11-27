@@ -14,9 +14,13 @@ public class MapArtifact extends Artifact {
 
 	int adventurersKilled = 0;
 	int monstersKilled = 0;
-	
-	public void init(){
 
+	int nAdventurer = 0;
+	int nMonster = 0;
+
+	public void init(){
+		defineObsProperty("nAdventurer", nAdventurer);
+		defineObsProperty("nMonster", nMonster);
 	}
 
 	@OPERATION
@@ -25,6 +29,9 @@ public class MapArtifact extends Artifact {
 		Position agentPos = new Position(h,v);
 		adventurersPosition.put(agentName, agentPos);
 		defineObsProperty("adventurer", agentName, h, v);
+
+		nAdventurer = nAdventurer + 1;
+		getObsProperty("nAdventurer").updateValue(nAdventurer);
 	}
 
 	@OPERATION
@@ -32,6 +39,9 @@ public class MapArtifact extends Artifact {
 		Position agentPos = new Position(h,v);
 		monstersPosition.put(monsterName, agentPos);
 		defineObsProperty("monster", monsterName, h, v);
+
+		nMonster = nMonster + 1;
+		getObsProperty("nMonster").updateValue(nMonster);
 	}
 
 	@OPERATION
@@ -42,10 +52,16 @@ public class MapArtifact extends Artifact {
 			monstersPosition.remove(remove_from_map);
 			removeObsPropertyByTemplate("monster", remove_from_map, posm.horizontal, posm.vertical);
 			monstersKilled = monstersKilled + 1;
+
+			nMonster = nMonster - 1;
+			getObsProperty("nMonster").updateValue(nMonster);
 		}else if(posp!=null){
 			adventurersPosition.remove(remove_from_map);
 			removeObsPropertyByTemplate("adventurer", remove_from_map, posp.horizontal, posp.vertical);
 			adventurersKilled = adventurersKilled +1;
+
+			nAdventurer = nAdventurer -1;
+			getObsProperty("nAdventurer").updateValue(nAdventurer);
 		}
 	}
 
