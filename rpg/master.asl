@@ -41,8 +41,7 @@ monsters_spawned(0).
         .wait(1000);
         .
 
-+!manage_turns[scheme(Sch)]
-    : .findall(A,Sch::adventurer(A,X,Y),LA) & .findall(M,Sch::monster(M,X2,Y2),LM) & (LA \== [] & LM \== [])
++!manage_turns[scheme(Sch)]: Sch::nAdventurer(NA) & Sch::nMonster(NM) & NA \== 0 & NM \== 0
     <-  .findall([Init, Name], Sch::initiative(Name, Init), Uinit);
         .sort(Uinit, Oinit);
         .reverse(Oinit, Turns);
@@ -87,7 +86,7 @@ monsters_spawned(0).
             .print(Source," rolls ",Attack," and misses ", Receiver);
         }
         .send(Source, achieve, resume(attack(Receiver)[scheme(Sch)]));
-        . //Sch como annotation
+        . //TODO:Sch como annotation
 
 -!test_attack(Receiver, Attack, Damage, Sch)[source(Source)].
 
