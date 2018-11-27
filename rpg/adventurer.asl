@@ -34,7 +34,7 @@ Status::class(fighter).
 		.
 
 +!battle_monsters[scheme(Sch)]
-	<-	!attack_turn[scheme(Sch)];
+	<-	!play_turn[scheme(Sch)];
 		!battle_monsters[scheme(Sch)];
 		.
 
@@ -42,7 +42,7 @@ Status::class(fighter).
 	<- .print("Battle ended!");
 		.
 
-+!attack_turn[scheme(Sch)]
++!play_turn[scheme(Sch)]
 	<-	!find_nearest_monster(Monster)[scheme(Sch)];
 		!attack(Monster)[scheme(Sch)];
 		.

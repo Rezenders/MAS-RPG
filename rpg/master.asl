@@ -49,6 +49,8 @@ monsters_spawned(0).
         .send(Source, achieve, resume(attack(Receiver)[scheme(Sch)]));
         .
 
+-!test_attack(Receiver, Attack, Damage, Sch)[source(Source)].
+
 +!resume(G)
 	<-	.resume(G);
 		.

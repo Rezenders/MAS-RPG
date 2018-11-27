@@ -34,7 +34,7 @@ Equip::weapon(dagger, 1, 4, 2).
 	<-	-+Attr::dexterity_mod((D-10) div 2).
 
 +!battle_adventurers[scheme(Sch)]
-	<-	!attack_turn[scheme(Sch)];
+	<-	!play_turn[scheme(Sch)];
 		!battle_adventurers[scheme(Sch)];
 		.
 
@@ -42,7 +42,7 @@ Equip::weapon(dagger, 1, 4, 2).
 	<- .print("Battle ended!");
 		.
 
-+!attack_turn[scheme(Sch)]
++!play_turn[scheme(Sch)]
 	<-	!find_nearest_adventurer(Adventurer)[scheme(Sch)];
 		!attack(Adventurer)[scheme(Sch)];
 		.
