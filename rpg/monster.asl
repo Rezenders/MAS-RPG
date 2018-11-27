@@ -55,14 +55,6 @@ Equip::weapon(dagger, 1, 4, 2).
 		.suspend;
 		.
 
-+!resume(G)
-	<-	.resume(G);
-		.
-
-+!took_damage(Damage)
-	<-	?Status::hp(HP);
-		-+Status::hp(HP-Damage);
-		.
 
 { include("common-players.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }

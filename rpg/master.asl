@@ -42,14 +42,12 @@ monsters_spawned(0).
     <-  .findall([Init, Name], Sch::initiative(Name, Init), Uinit);
         .sort(Uinit, Oinit);
         .reverse(Oinit, Turns);
-        .print(Turns);
         !delegate_turns(Turns)[scheme(Sch)];
         .
 
 
 +!delegate_turns([H|T])[scheme(Sch)]
-    <-  .print(H);
-        H =[I,Name];
+    <-  H =[I,Name];
         !inform_turn(Name);
         !delegate_turns(T)[scheme(Sch)];
         .

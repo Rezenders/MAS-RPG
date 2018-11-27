@@ -13,3 +13,12 @@
 
 +Attr::dexterity(D)
 	<-	-+Attr::dexterity_mod((D-10) div 2).
+
++!resume(G)
+	<-	.resume(G);
+		.
+
++!took_damage(Damage)
+	<-	?Status::hp(HP);
+		-+Status::hp(HP-Damage);
+		.
