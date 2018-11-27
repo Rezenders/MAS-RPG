@@ -13,7 +13,7 @@ Equip::weapon(dagger, 1, 4, 2).
 		Sch::focus(ArtId);
 
 		adoptRole("monster");
-		commitMission(mSlayAdventurers);
+		// commitMission(mSlayAdventurers);
 
 		+Attr::constitution(9);
 		+Attr::strength(7);
@@ -21,35 +21,18 @@ Equip::weapon(dagger, 1, 4, 2).
 		+Attr::dexterity(15);
 		.send("master", achieve, resume(spawn_monster[scheme(Sch)]));
 		.
-+Attr::constitution(C)
-	<-	-+Attr::constitution_mod((C-10) div 2).
 
-+Attr::strength(S)
-	<-	-+Attr::strength_mod((S-10) div 2).
-
-+Attr::intelligence(I)
-	<-	-+Attr::intelligence_mod((I-10) div 2).
-
-+Attr::dexterity(D)
-	<-	-+Attr::dexterity_mod((D-10) div 2).
-
-+!battle_adventurers[scheme(Sch)]
-	<-	!play_turn[scheme(Sch)];
-		!battle_adventurers[scheme(Sch)];
++!roll_initiative[source(Source), scheme(Sch)]
+	<- 	.random(I);
+		.my_name(Me);
+		.send(Source, tell, Sch::initiative(Me, 1 + math.round(I*20 mod 20)));
 		.
 
--!battle_adventurers[scheme(Sch)]
-	<- .print("Battle ended!");
-		.
-
-+!play_turn[scheme(Sch)]
++!play_turn[source(Source),scheme(Sch)]
 	<-	!find_nearest_adventurer(Adventurer)[scheme(Sch)];
 		!attack(Adventurer)[scheme(Sch)];
-		.
-
-+!took_damage(Damage)
-	<-	?Status::hp(HP);
-		-+Status::hp(HP-Damage);
+		.my_name(Me);
+		.send(Source, achieve, resume(inform_turn(Me))[scheme(Sch)]);
 		.
 
 +!find_nearest_adventurer(Adventurer)[scheme(Sch)]
@@ -76,6 +59,12 @@ Equip::weapon(dagger, 1, 4, 2).
 	<-	.resume(G);
 		.
 
++!took_damage(Damage)
+	<-	?Status::hp(HP);
+		-+Status::hp(HP-Damage);
+		.
+
+{ include("common-players.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }

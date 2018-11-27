@@ -33,18 +33,17 @@ Status::class(fighter).
 		!equip_initial_items;
 		.
 
-+!battle_monsters[scheme(Sch)]
-	<-	!play_turn[scheme(Sch)];
-		!battle_monsters[scheme(Sch)];
++!roll_initiative[source(Source), scheme(Sch)]
+	<- 	.random(I);
+		.my_name(Me);
+		.send(Source, tell, Sch::initiative(Me, 1 + math.round(I*20 mod 20)));
 		.
 
--!battle_monsters[scheme(Sch)]
-	<- .print("Battle ended!");
-		.
-
-+!play_turn[scheme(Sch)]
++!play_turn[source(Source),scheme(Sch)]
 	<-	!find_nearest_monster(Monster)[scheme(Sch)];
 		!attack(Monster)[scheme(Sch)];
+		.my_name(Me);
+		.send(Source, achieve, resume(inform_turn(Me))[scheme(Sch)]);
 		.
 
 +!find_nearest_monster(Monster)[scheme(Sch)]

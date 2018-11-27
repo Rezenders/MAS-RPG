@@ -30,6 +30,37 @@ monsters_spawned(0).
         .suspend;
         .
 
++!demand_initiative[scheme(Sch)]
+    <-  .findall(Name, Sch::monster(Name, X, Y), Monsters);
+        .findall(Name, Sch::adventurer(Name, X, Y), Adventurers);
+        .concat(Monsters, Adventurers, Participants);
+        .send(Participants, achieve, roll_initiative[scheme(Sch)]);
+        .wait(1000);
+        .
+
++!manage_turns[scheme(Sch)]
+    <-  .findall([Init, Name], Sch::initiative(Name, Init), Uinit);
+        .sort(Uinit, Oinit);
+        .reverse(Oinit, Turns);
+        .print(Turns);
+        !delegate_turns(Turns)[scheme(Sch)];
+        .
+
+
++!delegate_turns([H|T])[scheme(Sch)]
+    <-  .print(H);
+        H =[I,Name];
+        !inform_turn(Name);
+        !delegate_turns(T)[scheme(Sch)];
+        .
+
++!delegate_turns([])[scheme(Sch)].
+
++!inform_turn(Name)
+    <-  .send(Name, achieve, play_turn[scheme(Sch)]);
+        .suspend;
+        .
+
 +!test_attack(Receiver, Attack, Damage, Sch)[source(Source)]//TODO:Enviar mensagem de volta para adventurer contando o status do monstro
     <-  .send(Receiver, askOne, Status::armor_points(X), armor_points(AP));
         if(Attack>=AP){
@@ -47,7 +78,7 @@ monsters_spawned(0).
             .print(Source," rolls ",Attack," and misses ", Receiver);
         }
         .send(Source, achieve, resume(attack(Receiver)[scheme(Sch)]));
-        .
+        . //Sch como annotation
 
 -!test_attack(Receiver, Attack, Damage, Sch)[source(Source)].
 
