@@ -4,10 +4,10 @@ Status::class(fighter).
 
 +!set_attributes
 	<- 	.random(C); .random(S);	.random(I); .random(D);
-		+Attr::constitution(8 + math.round(C*5) mod 5);
-		+Attr::strength(8 + math.round(S*5) mod 5 );
-		+Attr::intelligence(8+ math.round(I*5) mod 5);
-		+Attr::dexterity(8+ math.round(D*5) mod 5);
+		+Attr::constitution(11 + math.round(C*5) mod 5);
+		+Attr::strength(11 + math.round(S*5) mod 5 );
+		+Attr::intelligence(11+ math.round(I*5) mod 5);
+		+Attr::dexterity(11+ math.round(D*5) mod 5);
 
 		?Attr::constitution_mod(Cons);
 		+Status::hp(10 + Cons);
