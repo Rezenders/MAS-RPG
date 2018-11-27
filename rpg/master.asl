@@ -19,7 +19,7 @@ monsters_spawned(0).
 		Sch::focus(ArtId);
 		.
 
-+!spawn_monster[scheme(Sch)]
++!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < NA
     <-  ?monsters_spawned(N);
         .concat("kobold_",N, Name);
         .create_agent(Name, "monster.asl");
@@ -28,7 +28,10 @@ monsters_spawned(0).
         Sch::add_monsters(Name, 6+ math.round(X*6) mod 6, 6 + math.round(Y*6) mod 6);
         -+monsters_spawned(N+1); //usar namespace?
         .suspend;
+        !spawn_monster[scheme(Sch)];
         .
+
++!spawn_monster[scheme(Sch)].
 
 +!demand_initiative[scheme(Sch)]
     <-  .findall(Name, Sch::monster(Name, X, Y), Monsters);
