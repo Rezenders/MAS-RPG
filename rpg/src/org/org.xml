@@ -46,13 +46,13 @@
                         <goal id="create_table" />
                         <goal id="create_adventurer" />
                         <goal id="enter_adventurer" />
-                        <goal id="spawn_monster" />
                     </plan>
                 </goal>
-                <goal id="battle">
-                    <plan operator="parallel">
-                        <goal id="battle_monsters"/>
-                        <goal id="battle_adventurers"/>
+                <goal id="manageBattle">
+                    <plan operator="sequence">
+                        <goal id="spawn_monster" />
+                        <goal id="demand_initiative" />
+                        <goal id="manage_turns" />
                     </plan>
                 </goal>
             </plan>
@@ -60,7 +60,6 @@
 
         <mission id="mSetupTable" min="1" max="1">
             <goal id="create_table"/>
-            <goal id="spawn_monster" />
         </mission>
 
         <mission id="mCreateAdventurer" min="1" max="100">
@@ -68,20 +67,19 @@
             <goal id="enter_adventurer"/>
         </mission>
 
-        <mission id="mSlayMonsters" min="1" max="100">
-            <goal id="battle_monsters"/>
+        <mission id="mManageBattle" min="1" max="1">
+            <goal id="spawn_monster" />
+            <goal id="demand_initiative" />
+            <goal id="manage_turns" />
         </mission>
-        <mission id="mSlayAdventurers" min="0" max="100">
-            <goal id="battle_adventurers"/>
-        </mission>
+
     </scheme>
 </functional-specification>
 
 <normative-specification>
     <norm id="n1" type="obligation" role="master" mission="mSetupTable"/>
     <norm id="n2" type="obligation" role="adventurer" mission="mCreateAdventurer"/>
-    <norm id="n3" type="obligation" role="adventurer" mission="mSlayMonsters"/>
-    <norm id="n4" type="obligation" role="monster" mission="mSlayAdventurers"/>
+    <norm id="n3" type="obligation" role="master" mission="mManageBattle"/>
 </normative-specification>
 
 </organisational-specification>
