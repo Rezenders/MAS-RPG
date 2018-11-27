@@ -50,14 +50,14 @@ public class MapArtifact extends Artifact {
 		Position posp = adventurersPosition.get(agentName);
 		if(posm!=null){
 			monstersPosition.remove(agentName);
-			removeObsPropertyByTemplate("monster", agentName, posm.horizontal, posm.vertical);
+			removeObsPropertyByTemplate("monster", agentName, posm.h, posm.v);
 			monstersKilled = monstersKilled + 1;
 
 			nMonster = nMonster - 1;
 			getObsProperty("nMonster").updateValue(nMonster);
 		}else if(posp!=null){
 			adventurersPosition.remove(agentName);
-			removeObsPropertyByTemplate("adventurer", agentName, posp.horizontal, posp.vertical);
+			removeObsPropertyByTemplate("adventurer", agentName, posp.h, posp.v);
 			adventurersKilled = adventurersKilled +1;
 
 			nAdventurer = nAdventurer -1;
@@ -65,15 +65,28 @@ public class MapArtifact extends Artifact {
 		}
 	}
 
+	@OPERATION
+	public void move(String agentName, int h, int v){
+		Position posm = monstersPosition.get(agentName);
+		Position posp = adventurersPosition.get(agentName);
+		Position agentPos = new Position(h,v);
 
+		if(posm!=null){
+			monstersPosition.put(agentName, agentPos);
+			getObsPropertyByTemplate("monster", agentName, posm.h, posm.v).updateValues(agentName, h, v);
+		}else if(posp!=null){
+			adventurersPosition.put(agentName, agentPos);
+			getObsPropertyByTemplate("adventurer", agentName, posp.h, posp.v).updateValues(agentName, h, v);
+		}
+	}
 }
 
 class Position{
-	public int horizontal;
-	public int vertical;
+	public int h;
+	public int v;
 
-	public Position(int h, int v){
-		horizontal = h;
-		vertical = v;
+	public Position(int h1, int v1){
+		h = h1;
+		v = v1;
 	}
 }
