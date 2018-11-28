@@ -14,8 +14,28 @@ Attr::attack_bonus(0).
 
 		?Attr::constitution_mod(Cons);
 		+Status::hp(10 + Cons);
-		?Attr::dexterity_mod(Dex);
-		+Status::armor_points(10 + Dex);
+		+Status::max_hp(10 + Cons);
+		.
+
++!level_up[scheme(Sch)]
+	<-	?Attr::constitution(C);
+		?Attr::strength(S);
+		?Attr::intelligence(I);
+		?Attr::dexterity(D);
+		-+Attr::constitution(C+2);
+		-+Attr::strength(S+2);
+		-+Attr::intelligence(I+2);
+		-+Attr::dexterity(D+2);
+
+		Sch::roll_dice(1, 12, D1);
+		?Attr::constitution_mod(Cons);
+		?Status::max_hp(HP);
+		-+Status::hp(HP + Cons + D1);
+		-+Status::max_hp(HP + Cons + D1);
+		.print(HP + Cons + D1);
+
+		?Status::level(L);
+		-+Status::level(L + 1);
 		.
 
 +!roll_status(R)

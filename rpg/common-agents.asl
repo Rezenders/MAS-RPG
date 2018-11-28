@@ -14,6 +14,13 @@
 +Attr::dexterity(D)
 	<-	-+Attr::dexterity_mod((D-10) div 2).
 
++Attr::dexterity_mod(D): Equip::armor(A)
+	<-	-+Status::armor_points(10 + D + A).
+
++Attr::dexterity_mod(D)
+	<-	-+Status::armor_points(10 + D).
+
+
 +!name <- .my_name(Me); .term2string(Me, SMe); +my_name(SMe).
 
 +!resume(G)

@@ -3,8 +3,6 @@ monster_level(2,"axebeak").
 monster_level(3,"orc").
 monster_level(4,"bugbear").
 
-level(0).
-
 !start_game("table1").
 
 +!start_game(Id)
@@ -65,10 +63,8 @@ level(0).
 +!spawn_monster[scheme(Sch)].
 
 +!demand_initiative[scheme(Sch)]
-    <-  .findall(Name, Sch::monster(Name, X, Y), Monsters);
-        .findall(Name, Sch::adventurer(Name, X, Y), Adventurers);
-        .concat(Monsters, Adventurers, Participants);
-        .send(Participants, achieve, roll_initiative[scheme(Sch)]);
+    <-
+        .broadcast(achieve, roll_initiative[scheme(Sch)]);
         .abolish(Sch::initiative(_,_));
         .wait(1000);
         .
@@ -86,6 +82,9 @@ level(0).
     <-  ?Sch::level(L);
         .print("Level ", L, " completed. Prepare for next level! \n");
         -+Sch::level(L+1);
+        .findall(Name, Sch::adventurer(Name, X, Y), Adventurers);
+        .send(Adventurers, achieve, level_up[scheme(Sch)]);
+        .wait(300);
         goalAchieved("manage_turns");
         resetGoal("manageBattle");
         .
