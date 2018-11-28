@@ -1,5 +1,8 @@
 monster_level(1,"kobold").
 monster_level(2,"axebeak").
+monster_level(3,"orc").
+monster_level(4,"bugbear").
+
 level(0).
 
 !start_game("table1").
@@ -29,9 +32,9 @@ level(0).
         +Sch::level(1);
 		.
 
-+!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < NA
++!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < NA & Sch::level(L) & monster_level(L+1,N2)
     <-  ?Sch::monsters_spawned(N);
-        ?Sch::level(L);?monster_level(L,Monster);
+        ?monster_level(L, Monster);
         .concat(Monster, "_", N, Name); .concat(Monster,".asl",File);
         .create_agent(Name, File);
         .send(Name, achieve, init_monster[scheme(Sch)]);
@@ -39,6 +42,21 @@ level(0).
 
         Sch::roll_dice(1, 6, D1);
 		Sch::roll_dice(1, 6, D2);
+        Sch::add_monsters(Name, 6 + D1, 6 + D2);
+        -+Sch::monsters_spawned(N+1); //usar namespace?
+        !spawn_monster[scheme(Sch)];
+        .
+
++!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < 1
+    <-  ?Sch::monsters_spawned(N);
+        ?Sch::level(L);?monster_level(L,Monster);
+        .concat("Boss ", Monster, Name);.concat(Monster,".asl",File);
+        .create_agent(Name, File);
+        .send(Name, achieve, init_monster[scheme(Sch)]);
+        .suspend;
+
+        Sch::roll_dice(1, 6, D1);
+        Sch::roll_dice(1, 6, D2);
         Sch::add_monsters(Name, 6 + D1, 6 + D2);
         -+Sch::monsters_spawned(N+1); //usar namespace?
         !spawn_monster[scheme(Sch)];

@@ -1,5 +1,4 @@
 Status::level(1).
-Status::exp(0).
 Status::class(fighter).
 Attr::attack_bonus(0).
 
