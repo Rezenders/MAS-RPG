@@ -4,7 +4,6 @@ import jason.asSyntax.Atom;
 import cartago.*;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Set;
 
 
 public class MapArtifact extends Artifact {

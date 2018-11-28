@@ -4,12 +4,16 @@ Status::class(fighter).
 
 !name.
 
-+!set_attributes
-	<- 	.random(C); .random(S);	.random(I); .random(D);
-		+Attr::constitution(11 + math.round(C*5) mod 5);
-		+Attr::strength(11 + math.round(S*5) mod 5 );
-		+Attr::intelligence(11+ math.round(I*5) mod 5);
-		+Attr::dexterity(11+ math.round(D*5) mod 5);
++!set_attributes[scheme(Sch)]
+	<-
+		Sch::roll_dice(1, 4, C);
+		+Attr::constitution(11 + C);
+		Sch::roll_dice(1, 4, S);
+		+Attr::strength(11 + S );
+		Sch::roll_dice(1, 4, I);
+		+Attr::intelligence(11 + I);
+		Sch::roll_dice(1, 4, D);
+		+Attr::dexterity(11 + D);
 
 		?Attr::constitution_mod(Cons);
 		+Status::hp(10 + Cons);
@@ -24,21 +28,30 @@ Status::class(fighter).
 
 +!enter_adventurer[scheme(Sch)]
 	<-	?goalArgument(Sch,setupTable,"Id",Id);
-		lookupArtifact(Id,ArtId);
-		Sch::focus(ArtId);
-		.random(X); .random(Y);
-		Sch::enter_map( math.round(X*6) mod 6, math.round(Y*6) mod 6);
+
+		.concat("map_",Id, MId);
+		lookupArtifact(MId, MArtId);
+		Sch::focus(MArtId);
+
+		Sch::roll_dice(1, 6, D1);
+		Sch::roll_dice(1, 6, D2);
+		Sch::enter_map( D1, D2);
 		.
 
 +!create_adventurer[scheme(Sch)]
-	<-	!set_attributes;
+	<-	?goalArgument(Sch,setupTable,"Id",Id);
+		.concat("dice_",Id, DId);
+		lookupArtifact(DId, DArtId);
+		Sch::focus(DArtId);
+
+		!set_attributes[scheme(Sch)];
 		!equip_initial_items;
 		.
 
 +!roll_initiative[source(Source), scheme(Sch)]
-	<- 	.random(I);
+	<- 	Sch::roll_dice(1, 20, I);
 		.my_name(Me);
-		.send(Source, tell, Sch::initiative(Me, 1 + math.round(I*20 mod 20)));
+		.send(Source, tell, Sch::initiative(Me, 1 + I));
 		.
 
 +!play_turn[source(Source),scheme(Sch)]
@@ -74,13 +87,17 @@ Status::class(fighter).
 
 +!attack(Monster)[scheme(Sch)] : Monster \== [] & in_range(Monster)
 	<-	.print("Prepare to be destroyed ", Monster, "!!!!");
-		.random(D); //TODO: implementar artefato para dados
-		.random(D2); ?Attr::strength_mod(SM);
-		Attack = (1+ math.round(D*20) mod 20);
-		?Equip::weapon(WN, ND, TD, BD); Damage = SM + ND*(1 + math.round(D2*TD) mod TD) + BD; //TODO:Rolar ND dados 
-		.send(master, achieve, test_attack(Monster,Attack ,Damage, Sch));
+		Sch::roll_dice(1, 20, Attack);
+
+		?Attr::strength_mod(SM);
+		?Equip::weapon(WN, ND, TD, BD);
+		Sch::roll_dice(ND, TD, D2);
+		Damage = SM + D2 + BD;
+
+		.send(master, achieve, test_attack(Monster, Attack ,Damage, Sch));
 		.suspend;
 		.
+
 +!attack(Monster)[scheme(Sch)]
 	<-	!move_towards_monster(Monster)[scheme(Sch)].
 

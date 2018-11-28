@@ -15,8 +15,14 @@ monsters_spawned(0).
 +!create_table[scheme(Sch)]
 	<-	.print("Table created, let's play adventures. \n");
 		?goalArgument(Sch,setupTable,"Id",Id)
-		makeArtifact(Id, "rpg.MapArtifact",[], ArtId);
-		Sch::focus(ArtId);
+
+        .concat("dice_",Id, DId);
+        makeArtifact(DId, "rpg.DiceArtifact",[], DArtId);
+        Sch::focus(DArtId);
+
+        .concat("map_",Id, MId);
+		makeArtifact(MId, "rpg.MapArtifact",[], MArtId);
+		Sch::focus(MArtId);
 		.
 
 +!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < NA
@@ -24,8 +30,10 @@ monsters_spawned(0).
         .concat("kobold_",N, Name);
         .create_agent(Name, "monster.asl");
         .send(Name, achieve, init_monster[scheme(Sch)]);
-        .random(X); .random(Y);
-        Sch::add_monsters(Name, 6+ math.round(X*6) mod 6, 6 + math.round(Y*6) mod 6);
+
+        Sch::roll_dice(1, 6, D1);
+		Sch::roll_dice(1, 6, D2);
+        Sch::add_monsters(Name, 6 + D1, 6 + D2);
         -+monsters_spawned(N+1); //usar namespace?
         .suspend;
         !spawn_monster[scheme(Sch)];

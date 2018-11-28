@@ -10,8 +10,13 @@ Equip::weapon(dagger, 1, 4, 2).
 		focus(SchArtId);
 
 		?goalArgument(Sch,setupTable,"Id",Id);
-		lookupArtifact(Id,ArtId);
-		Sch::focus(ArtId);
+		.concat("dice_",Id, DId);
+		lookupArtifact(DId, DArtId);
+		Sch::focus(DArtId);
+
+		.concat("map_",Id, MId);
+		lookupArtifact(MId, MArtId);
+		Sch::focus(MArtId);
 
 		adoptRole("monster");
 
@@ -23,9 +28,9 @@ Equip::weapon(dagger, 1, 4, 2).
 		.
 
 +!roll_initiative[source(Source), scheme(Sch)]
-	<- 	.random(I);
+	<- 	Sch::roll_dice(1, 20, I);
 		.my_name(Me);
-		.send(Source, tell, Sch::initiative(Me, 1 + math.round(I*20 mod 20)));
+		.send(Source, tell, Sch::initiative(Me, 1 + I));
 		.
 
 +!play_turn[source(Source),scheme(Sch)]
@@ -61,12 +66,13 @@ Equip::weapon(dagger, 1, 4, 2).
 
 +!attack(Adventurer)[scheme(Sch)] : Adventurer \== [] & in_range(Adventurer)
 	<-	.print("[Translation from unknown language] You will be obliterated ",Adventurer, "!!!");
-		.random(D); //TODO: implementar artefato para dados
-		.random(D2);
-		// ?Attr::strength_mod(SM); Nao funciona n sei pq
-		Attack = 4 + (1 + math.round(D*20) mod 20);
-		?Equip::weapon(WN, ND, TD, BD); Damage = -1 + ND*(1 + math.round(D2*TD) mod TD) + BD; //TODO:Rolar ND dados
-		.send(master, achieve, test_attack(Adventurer, Attack ,Damage, Sch));
+		Sch::roll_dice(1, 20, Attack);
+
+		?Equip::weapon(WN, ND, TD, BD);
+		Sch::roll_dice(ND, TD, D2);
+		Damage = -1 + D2 + BD;
+
+		.send(master, achieve, test_attack(Adventurer, Attack + 4, Damage, Sch));
 		.suspend;
 		.
 
