@@ -59,7 +59,11 @@ monsters_spawned(0).
         .
 
 +!manage_turns[scheme(Sch)]
-    <- .print("Battle ended").
+    <-  ?Sch::adventurersKilled(AK);
+        ?Sch::monstersKilled(MK);
+        .print("Battle ended");
+        .print("The life of ", AK, " brave adventures were lost while defeating ",MK," monsters.");
+        .
 
 +!delegate_turns([H|T])[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NA \== 0 & NM \== 0
     <-  H =[I,Name];
