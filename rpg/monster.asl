@@ -64,7 +64,8 @@ Equip::weapon(dagger, 1, 4, 2).
 		.random(D); //TODO: implementar artefato para dados
 		.random(D2);
 		// ?Attr::strength_mod(SM); Nao funciona n sei pq
-		Attack = 4 + (1 + math.round(D*20) mod 20); Damage = -1 + 2+ (1 + math.round(D2*8) mod 8); //TODO:Tirar informação dos dados a partir da weapon
+		Attack = 4 + (1 + math.round(D*20) mod 20);
+		?Equip::weapon(WN, ND, TD, BD); Damage = -1 + ND*(1 + math.round(D2*TD) mod TD) + BD; //TODO:Rolar ND dados
 		.send(master, achieve, test_attack(Adventurer, Attack ,Damage, Sch));
 		.suspend;
 		.

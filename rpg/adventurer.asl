@@ -18,7 +18,7 @@ Status::class(fighter).
 		.
 
 +!equip_initial_items
-	<-	+Equip::weapon(sword, 1, 8);
+	<-	+Equip::weapon(sword, 1, 8, 0);
 		+Equip::armor(7);
 		.
 
@@ -76,7 +76,8 @@ Status::class(fighter).
 	<-	.print("Prepare to be destroyed ", Monster, "!!!!");
 		.random(D); //TODO: implementar artefato para dados
 		.random(D2); ?Attr::strength_mod(SM);
-		Attack = (1+ math.round(D*20) mod 20); Damage = SM + (1 + math.round(D2*8) mod 8); //TODO:Tirar informação dos dados a partir da weapon
+		Attack = (1+ math.round(D*20) mod 20);
+		?Equip::weapon(WN, ND, TD, BD); Damage = SM + ND*(1 + math.round(D2*TD) mod TD) + BD; //TODO:Rolar ND dados 
 		.send(master, achieve, test_attack(Monster,Attack ,Damage, Sch));
 		.suspend;
 		.
