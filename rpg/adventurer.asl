@@ -1,6 +1,7 @@
 Status::level(1).
 Status::exp(0).
 Status::class(fighter).
+Attr::attack_bonus(0).
 
 !name.
 
@@ -94,13 +95,14 @@ Status::class(fighter).
 +!attack(Monster)[scheme(Sch)] : Monster \== [] & in_range(Monster)
 	<-	.print("Prepare to be destroyed ", Monster, "!!!!");
 		Sch::roll_dice(1, 20, Attack);
+		?Attr::attack_bonus(AB);
 
 		?Attr::strength_mod(SM);
 		?Equip::weapon(WN, ND, TD, BD);
 		Sch::roll_dice(ND, TD, D2);
 		Damage = SM + D2 + BD;
 
-		.send(master, achieve, test_attack(Monster, Attack ,Damage, Sch));
+		.send(master, achieve, test_attack(Monster, Attack + AB ,Damage, Sch));
 		.suspend;
 		.
 

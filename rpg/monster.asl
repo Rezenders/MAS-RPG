@@ -1,6 +1,7 @@
 Status::hp(5).
 Status::armor_points(12).
 Equip::weapon(dagger, 1, 4, 2).
+Attr::attack_bonus(4).
 
 !name.
 
@@ -67,12 +68,14 @@ Equip::weapon(dagger, 1, 4, 2).
 +!attack(Adventurer)[scheme(Sch)] : Adventurer \== [] & in_range(Adventurer)
 	<-	.print("[Translation from unknown language] You will be obliterated ",Adventurer, "!!!");
 		Sch::roll_dice(1, 20, Attack);
+		?Attr::attack_bonus(AB);
 
 		?Equip::weapon(WN, ND, TD, BD);
 		Sch::roll_dice(ND, TD, D2);
-		Damage = -1 + D2 + BD;
+		?Attr::strength_mod(SM);
+		Damage = SM + D2 + BD;
 
-		.send(master, achieve, test_attack(Adventurer, Attack + 4, Damage, Sch));
+		.send(master, achieve, test_attack(Adventurer, Attack + AB, Damage, Sch));
 		.suspend;
 		.
 
