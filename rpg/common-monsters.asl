@@ -1,8 +1,3 @@
-Status::hp(5).
-Status::armor_points(12).
-Equip::weapon(dagger, 1, 4, 2).
-Attr::attack_bonus(4).
-
 !name.
 
 +!init_monster[scheme(Sch)]
@@ -83,7 +78,6 @@ Attr::attack_bonus(4).
 	<-	!move_towards_adventurer(Adventurer)[scheme(Sch)].
 
 in_range(Adventurer) :- my_name(Me) & Sch::adventurer(Adventurer, H, V) & Sch::monster(Me, H2, V2) & adj(H, V, H2, V2).
-
 
 { include("common-agents.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }

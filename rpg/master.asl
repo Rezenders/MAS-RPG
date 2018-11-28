@@ -27,8 +27,8 @@ monsters_spawned(0).
 
 +!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < NA
     <-  ?monsters_spawned(N);
-        .concat("kobold_",N, Name);
-        .create_agent(Name, "monster.asl");
+        .concat("kobold_", N, Name);
+        .create_agent(Name, "kobold.asl");
         .send(Name, achieve, init_monster[scheme(Sch)]);
 
         Sch::roll_dice(1, 6, D1);
