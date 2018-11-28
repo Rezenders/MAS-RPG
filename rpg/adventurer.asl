@@ -6,19 +6,27 @@ Status::class(fighter).
 
 +!set_attributes[scheme(Sch)]
 	<-
-		Sch::roll_dice(1, 4, C);
-		+Attr::constitution(11 + C);
-		Sch::roll_dice(1, 4, S);
-		+Attr::strength(11 + S );
-		Sch::roll_dice(1, 4, I);
-		+Attr::intelligence(11 + I);
-		Sch::roll_dice(1, 4, D);
-		+Attr::dexterity(11 + D);
+		!roll_status(C); !roll_status(S); !roll_status(I); !roll_status(D);
+		+Attr::constitution(C);
+		+Attr::strength(S);
+		+Attr::intelligence(I);
+		+Attr::dexterity(D);
 
 		?Attr::constitution_mod(Cons);
 		+Status::hp(10 + Cons);
 		?Attr::dexterity_mod(Dex);
 		+Status::armor_points(10 + Dex);
+		.
+
++!roll_status(R)
+	<- 	Sch::roll_dice(1, 6, D1);
+		Sch::roll_dice(1, 6, D2);
+		Sch::roll_dice(1, 6, D3);
+		Sch::roll_dice(1, 6, D4);
+		.min([D1, D2, D3, D4], LD);
+		R = D1 + D2 + D3 + D4 - LD;
+		.print([D1, D2, D3, D4]);
+		.print(R);
 		.
 
 +!equip_initial_items
