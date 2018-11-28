@@ -16,10 +16,6 @@
 
 		adoptRole("monster");
 
-		+Attr::constitution(9);
-		+Attr::strength(7);
-		+Attr::intelligence(7);
-		+Attr::dexterity(15);
 		.send("master", achieve, resume(spawn_monster[scheme(Sch)]));
 		.
 
