@@ -72,8 +72,6 @@ Status::class(fighter).
 
 +!move_towards_monster(Monster)[scheme(Sch)].
 
-
-
 +!attack(Monster)[scheme(Sch)] : Monster \== [] & in_range(Monster)
 	<-	.print("Prepare to be destroyed ", Monster, "!!!!");
 		.random(D); //TODO: implementar artefato para dados
@@ -89,7 +87,7 @@ in_range(Monster) :- my_name(Me) & Sch::adventurer(Me, H, V) & Sch::monster(Mons
 
 
 
-{ include("common-players.asl") }
+{ include("common-agents.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }

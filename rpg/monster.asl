@@ -75,7 +75,7 @@ Equip::weapon(dagger, 1, 4, 2).
 in_range(Adventurer) :- my_name(Me) & Sch::adventurer(Adventurer, H, V) & Sch::monster(Me, H2, V2) & adj(H, V, H2, V2).
 
 
-{ include("common-players.asl") }
+{ include("common-agents.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }
 { include("$jacamoJar/templates/org-obedient.asl") }
