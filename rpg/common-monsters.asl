@@ -2,6 +2,7 @@
 
 +!init_monster[scheme(Sch)]
 	<-	joinWorkspace("rpgOrg",Workspace);
+		adoptRole("monster")[wid(Workspace)];
 		lookupArtifact(Sch,SchArtId);
 		focus(SchArtId);
 
@@ -14,7 +15,6 @@
 		lookupArtifact(MId, MArtId);
 		Sch::focus(MArtId);
 
-		adoptRole("monster");
 
 		.send("master", achieve, resume(spawn_monster[scheme(Sch)]));
 		.
