@@ -20,6 +20,8 @@ public class MapArtifact extends Artifact {
 	public void init(){
 		defineObsProperty("nAdventurer", nAdventurer);
 		defineObsProperty("nMonster", nMonster);
+		defineObsProperty("adventurersKilled", nMonster);
+		defineObsProperty("monstersKilled", nMonster);
 	}
 
 	@OPERATION
@@ -51,6 +53,7 @@ public class MapArtifact extends Artifact {
 			monstersPosition.remove(agentName);
 			removeObsPropertyByTemplate("monster", agentName, posm.h, posm.v);
 			monstersKilled = monstersKilled + 1;
+			getObsProperty("monstersKilled").updateValue(monstersKilled);
 
 			nMonster = nMonster - 1;
 			getObsProperty("nMonster").updateValue(nMonster);
@@ -58,6 +61,7 @@ public class MapArtifact extends Artifact {
 			adventurersPosition.remove(agentName);
 			removeObsPropertyByTemplate("adventurer", agentName, posp.h, posp.v);
 			adventurersKilled = adventurersKilled +1;
+			getObsProperty("adventurersKilled").updateValue(adventurersKilled);
 
 			nAdventurer = nAdventurer -1;
 			getObsProperty("nAdventurer").updateValue(nAdventurer);
