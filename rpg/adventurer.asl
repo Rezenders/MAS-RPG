@@ -30,7 +30,7 @@ Attr::attack_bonus(0).
 
 +!equip_initial_items
 	<-	+Equip::weapon(sword, 1, 8, 0);
-		+Equip::armor(5);
+		+Equip::armor(7);
 		.
 
 +!enter_adventurer[scheme(Sch)]

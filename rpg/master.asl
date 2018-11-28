@@ -1,4 +1,6 @@
-monsters_spawned(0).
+monster_level(1,"kobold").
+monster_level(2,"axebeak").
+level(0).
 
 !start_game("table1").
 
@@ -23,19 +25,22 @@ monsters_spawned(0).
         .concat("map_",Id, MId);
 		makeArtifact(MId, "rpg.MapArtifact",[], MArtId);
 		Sch::focus(MArtId);
+        +Sch::monsters_spawned(0);
+        +Sch::level(1);
 		.
 
 +!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < NA
-    <-  ?monsters_spawned(N);
-        .concat("kobold_", N, Name);
-        .create_agent(Name, "kobold.asl");
+    <-  ?Sch::monsters_spawned(N);
+        ?Sch::level(L);?monster_level(L,Monster);
+        .concat(Monster, "_", N, Name); .concat(Monster,".asl",File);
+        .create_agent(Name, File);
         .send(Name, achieve, init_monster[scheme(Sch)]);
+        .suspend;
 
         Sch::roll_dice(1, 6, D1);
 		Sch::roll_dice(1, 6, D2);
         Sch::add_monsters(Name, 6 + D1, 6 + D2);
-        -+monsters_spawned(N+1); //usar namespace?
-        .suspend;
+        -+Sch::monsters_spawned(N+1); //usar namespace?
         !spawn_monster[scheme(Sch)];
         .
 
@@ -46,6 +51,7 @@ monsters_spawned(0).
         .findall(Name, Sch::adventurer(Name, X, Y), Adventurers);
         .concat(Monsters, Adventurers, Participants);
         .send(Participants, achieve, roll_initiative[scheme(Sch)]);
+        .abolish(Sch::initiative(_,_));
         .wait(1000);
         .
 
@@ -56,6 +62,14 @@ monsters_spawned(0).
         !delegate_turns(Turns)[scheme(Sch)];
         .print("Turn ended \n");
         !manage_turns[scheme(Sch)];
+        .
+
++!manage_turns[scheme(Sch)]: Sch::nAdventurer(NA) & NA \== 0 & Sch::level(L) & monster_level(L+1,N)
+    <-  ?Sch::level(L);
+        .print("Level ", L, " completed. Prepare for next level! \n");
+        -+Sch::level(L+1);
+        goalAchieved("manage_turns");
+        resetGoal("manageBattle");
         .
 
 +!manage_turns[scheme(Sch)]
