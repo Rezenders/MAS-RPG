@@ -25,13 +25,11 @@ Status::class(fighter).
 		Sch::roll_dice(1, 6, D4);
 		.min([D1, D2, D3, D4], LD);
 		R = D1 + D2 + D3 + D4 - LD;
-		.print([D1, D2, D3, D4]);
-		.print(R);
 		.
 
 +!equip_initial_items
 	<-	+Equip::weapon(sword, 1, 8, 0);
-		+Equip::armor(7);
+		+Equip::armor(5);
 		.
 
 +!enter_adventurer[scheme(Sch)]
