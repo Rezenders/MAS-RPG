@@ -22,10 +22,10 @@ Attr::attack_bonus(0).
 		?Attr::strength(S);
 		?Attr::intelligence(I);
 		?Attr::dexterity(D);
-		-+Attr::constitution(C+2);
-		-+Attr::strength(S+2);
-		-+Attr::intelligence(I+2);
-		-+Attr::dexterity(D+2);
+		-+Attr::constitution(C+1);
+		-+Attr::strength(S+1);
+		-+Attr::intelligence(I+1);
+		-+Attr::dexterity(D+1);
 
 		Sch::roll_dice(1, 12, D1);
 		?Attr::constitution_mod(Cons);
