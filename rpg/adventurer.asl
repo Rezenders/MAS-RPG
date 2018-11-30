@@ -32,7 +32,6 @@ Attr::attack_bonus(0).
 		?Status::max_hp(HP);
 		-+Status::hp(HP + Cons + D1);
 		-+Status::max_hp(HP + Cons + D1);
-		.print(HP + Cons + D1);
 
 		?Status::level(L);
 		-+Status::level(L + 1);
@@ -52,7 +51,7 @@ Attr::attack_bonus(0).
 		+Equip::armor(7);
 		.
 
-+!enter_adventurer[scheme(Sch)]
++!join_table[scheme(Sch)]
 	<-	?goalArgument(Sch,setupTable,"Id",Id);
 
 		.concat("map_",Id, MId);

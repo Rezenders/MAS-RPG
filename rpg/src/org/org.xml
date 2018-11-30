@@ -26,13 +26,6 @@
         <role id="monster" min="0" max="100"/>
     </roles>
 
-    <!-- <links>
-       <link from="master" to="adventurer" type="authority"     scope="intra-group" bi-dir="false"/>
-       <link from="master" to="monster" type="authority" scope="intra-group" bi-dir="false"/>
-    </links>
-    <formation-constraints>
-       <compatibility from="role1" to="role2" />
-    </formation-constraints> -->
 </group-specification>
 </structural-specification>
 
@@ -45,7 +38,7 @@
                     <plan operator="sequence">
                         <goal id="create_table" />
                         <goal id="create_adventurer" />
-                        <goal id="enter_adventurer" />
+                        <goal id="join_table" />
                     </plan>
                 </goal>
                 <goal id="manageBattle">
@@ -64,7 +57,7 @@
 
         <mission id="mCreateAdventurer" min="1" max="100">
             <goal id="create_adventurer"/>
-            <goal id="enter_adventurer"/>
+            <goal id="join_table"/>
         </mission>
 
         <mission id="mManageBattle" min="1" max="1">
