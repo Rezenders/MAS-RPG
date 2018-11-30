@@ -44,7 +44,8 @@
 		.
 
 +!move_towards_adventurer(Adventurer)[scheme(Sch)]: not in_range(Adventurer)
-	<-	.print("[Translation from unknown language] Run while you can ", Adventurer);
+	<-	?moving_phrase(Phrase);
+		.print(Phrase, Adventurer);
 		?my_name(Me); ?Sch::monster(Me, X, Y);
 		?Sch::adventurer(Adventurer, X2, Y2);
 		!move_possibilities(X, Y, P);
@@ -57,7 +58,8 @@
 +!move_towards_adventurer(Adventurer)[scheme(Sch)].
 
 +!attack(Adventurer)[scheme(Sch)] : Adventurer \== [] & in_range(Adventurer)
-	<-	.print("[Translation from unknown language] You will be obliterated ",Adventurer, "!!!");
+	<-	?attack_phrase(Phrase);
+		.print(Phrase, Adventurer, "!!!");
 		Sch::roll_dice(1, 20, Attack);
 		?Attr::attack_bonus(AB);
 

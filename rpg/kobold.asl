@@ -8,4 +8,6 @@ Attr::strength(7).
 Attr::intelligence(7).
 Attr::dexterity(15).
 
+attack_phrase("[Translation from unknown language] You will be obliterated ").
+moving_phrase("[Translation from unknown language] Run while you can ").
 { include("common-monsters.asl") }

@@ -8,4 +8,6 @@ Attr::strength(16).
 Attr::intelligence(7).
 Attr::dexterity(12).
 
+attack_phrase("I'll rip you apart ").
+moving_phrase("I'm comming for you ").
 { include("common-monsters.asl") }

@@ -8,4 +8,6 @@ Attr::strength(15).
 Attr::intelligence(8).
 Attr::dexterity(14).
 
+attack_phrase("I'll feed on your dead body ").
+moving_phrase("I'm gonna chase you to death ").
 { include("common-monsters.asl") }

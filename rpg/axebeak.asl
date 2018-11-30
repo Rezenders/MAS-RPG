@@ -8,4 +8,7 @@ Attr::strength(14).
 Attr::intelligence(2).
 Attr::dexterity(12).
 
+attack_phrase("Chiiiirp Chiiiiirp ").
+moving_phrase("Chiiiiiiiiiiiiiiiiiiiirp ").
+
 { include("common-monsters.asl") }
