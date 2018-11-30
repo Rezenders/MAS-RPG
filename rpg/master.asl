@@ -6,7 +6,7 @@ monster_level(4,"bugbear").
 !start_game("table1").
 
 +!start_game(Id)
-   <- 	.print("Iniciando");
+   <- 	.print("Starting game.");
 		.concat("sch_",Id,SchName);
 		makeArtifact(SchName, "ora4mas.nopl.SchemeBoard",["src/org/org.xml", rpgSch],SchArtId);
 		setArgumentValue(setupTable,"Id",Id)[artifact_id(SchArtId)];
@@ -114,7 +114,7 @@ monster_level(4,"bugbear").
 
 +!inform_turn(Name).
 
-+!test_attack(Receiver, Attack, Damage, Sch)[source(Source)]
++!test_attack(Receiver, Attack, Damage)[source(Source), scheme(Sch)]
     <-  .send(Receiver, askOne, Status::armor_points(X), armor_points(AP));
         if(Attack>=AP){
             .send(Receiver, askOne, Status::hp(X),hp(HP));
@@ -131,9 +131,9 @@ monster_level(4,"bugbear").
             .print(Source," rolls ",Attack," and misses ", Receiver);
         }
         .send(Source, achieve, resume(attack(Receiver)[scheme(Sch)]));
-        . //TODO:Sch como annotation
+        .
 
--!test_attack(Receiver, Attack, Damage, Sch)[source(Source)].
+-!test_attack(Receiver, Attack, Damage)[source(Source), scheme(Sch)].
 
 +!resume(G)
 	<-	.resume(G);

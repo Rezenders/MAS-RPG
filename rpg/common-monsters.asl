@@ -66,7 +66,7 @@
 		?Attr::strength_mod(SM);
 		Damage = SM + D2 + BD;
 
-		.send(master, achieve, test_attack(Adventurer, Attack + AB, Damage, Sch));
+		.send(master, achieve, test_attack(Adventurer, Attack + AB, Damage)[scheme(Sch)]);
 		.suspend;
 		.
 

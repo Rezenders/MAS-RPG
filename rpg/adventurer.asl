@@ -120,7 +120,7 @@ Attr::attack_bonus(0).
 		Sch::roll_dice(ND, TD, D2);
 		Damage = SM + D2 + BD;
 
-		.send(master, achieve, test_attack(Monster, Attack + AB ,Damage, Sch));
+		.send(master, achieve, test_attack(Monster, Attack + AB ,Damage)[scheme(Sch)]);
 		.suspend;
 		.
 
