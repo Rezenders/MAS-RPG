@@ -59,3 +59,5 @@ adj(X1,Y,X2,Y) :- X2 == X1+1.
 adj(X1,Y,X2,Y) :- X2 == X1-1.
 adj(X,Y1,X,Y2) :- Y2 == Y1+1.
 adj(X,Y1,X,Y2) :- Y2 == Y1-1.
+
+isOcuppied(X,Y) :- Sch::adventurer(_, X, Y) | Sch::monster(_, X, Y).

@@ -58,10 +58,19 @@ Attr::attack_bonus(0).
 		lookupArtifact(MId, MArtId);
 		Sch::focus(MArtId);
 
-		?Sch::mapSize(H,V);
+		!roll_position(X,Y)[scheme(Sch)];
+		Sch::enter_map(X, Y);
+		.
+
++!roll_position(X,Y)[scheme(Sch)]
+	<-	?Sch::mapSize(H,V);
 		Sch::roll_dice(1, math.round(H/2), D1);
 		Sch::roll_dice(1, math.round(V/2), D2);
-		Sch::enter_map( D1, D2);
+		if(isOcuppied(D1, D2)){
+			!roll_position(X,Y)[scheme(Sch)];
+		}else{
+			X = D1; Y = D2;
+		}
 		.
 
 +!create_adventurer[scheme(Sch)]

@@ -38,13 +38,22 @@ monster_level(4,"bugbear").
         .send(Name, achieve, init_monster[scheme(Sch)]);
         .suspend;
 
-        ?Sch::mapSize(H,V);
-        Sch::roll_dice(1, math.round(H/2), D1);
-		Sch::roll_dice(1, math.round(V/2), D2);
-        Sch::add_monsters(Name, math.round(H/2) + D1, math.round(H/2) + D2);
+        !roll_position(X,Y)[scheme(Sch)];
+        Sch::add_monsters(Name, X, Y);
         -+Sch::monsters_spawned(N+1);
         !spawn_monster[scheme(Sch)];
         .
+
++!roll_position(X,Y)[scheme(Sch)]
+	<-	?Sch::mapSize(H,V);
+		Sch::roll_dice(1, math.round(H/2), D1);
+		Sch::roll_dice(1, math.round(V/2), D2);
+		if(isOcuppied( math.round(H/2) + D1, math.round(V/2) +D2)){
+			!roll_position(X,Y)[scheme(Sch)];
+		}else{
+			X = math.round(H/2) + D1; Y = math.round(V/2) +D2;
+		}
+		.
 
 +!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < 1
     <-  ?Sch::monsters_spawned(N);
