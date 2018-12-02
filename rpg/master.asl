@@ -98,7 +98,7 @@ monster_level(4,"bugbear").
 
 +!delegate_turns([H|T])[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NA \== 0 & NM \== 0
     <-  H =[I,Name];
-        !inform_turn(Name);
+        !inform_turn(Name)[scheme(Sch)];
         !delegate_turns(T)[scheme(Sch)];
         .
 
@@ -106,13 +106,13 @@ monster_level(4,"bugbear").
 
 +!delegate_turns([])[scheme(Sch)].
 
-+!inform_turn(Name) : .term2string(Name, SName) & (Sch::adventurer(SName,X,Y) | Sch::monster(SName,X,Y))
++!inform_turn(Name): .term2string(Name, SName) & (Sch::adventurer(SName,X,Y) | Sch::monster(SName,X,Y))
     <-  .send(Name, achieve, play_turn[scheme(Sch)]);
         .suspend;
         .
 
 
-+!inform_turn(Name).
++!inform_turn(Name)[scheme(Sch)].
 
 +!test_attack(Receiver, Attack, Damage)[source(Source), scheme(Sch)]
     <-  .send(Receiver, askOne, Status::armor_points(X), armor_points(AP));
@@ -130,14 +130,13 @@ monster_level(4,"bugbear").
         }else{
             .print(Source," rolls ",Attack," and misses ", Receiver);
         }
-        .send(Source, achieve, resume(attack(Receiver)[scheme(Sch)]));
+        .send(Source, resume, attack(Receiver)[scheme(Sch)]);
         .
 
 -!test_attack(Receiver, Attack, Damage)[source(Source), scheme(Sch)].
 
-+!resume(G)
-	<-	.resume(G);
-		.
++!kqml_received(Sender, resume, Content, MsgId)
+    <-  .resume(Content).
 
 { include("$jacamoJar/templates/common-cartago.asl") }
 { include("$jacamoJar/templates/common-moise.asl") }

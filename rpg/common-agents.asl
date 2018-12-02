@@ -23,9 +23,13 @@
 
 +!name <- .my_name(Me); .term2string(Me, SMe); +my_name(SMe).
 
-+!resume(G)
-	<-	.resume(G);
-		.
+
++!kqml_received(Sender, resume, Content, MsgId)
+    <- .resume(Content).
+
+// +!resume(G)
+// 	<-	.resume(G);
+// 		.
 
 +!took_damage(Damage)
 	<-	?Status::hp(HP);

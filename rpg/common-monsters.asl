@@ -16,7 +16,7 @@
 		Sch::focus(MArtId);
 
 
-		.send("master", achieve, resume(spawn_monster[scheme(Sch)]));
+		.send("master", resume, spawn_monster[scheme(Sch)]);
 		.
 
 +!roll_initiative[source(Source), scheme(Sch)]
@@ -30,7 +30,7 @@
 		!move_towards_adventurer(Adventurer)[scheme(Sch)];
 		!attack(Adventurer)[scheme(Sch)];
 		.my_name(Me);
-		.send(Source, achieve, resume(inform_turn(Me))[scheme(Sch)]);
+		.send(Source, resume, inform_turn(Me)[scheme(Sch)]);
 		.
 
 +!find_nearest_adventurer(Adventurer)[scheme(Sch)]

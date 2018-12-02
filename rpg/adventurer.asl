@@ -84,7 +84,7 @@ Attr::attack_bonus(0).
 		!move_towards_monster(Monster)[scheme(Sch)];
 		!attack(Monster)[scheme(Sch)];
 		.my_name(Me);
-		.send(Source, achieve, resume(inform_turn(Me))[scheme(Sch)]);
+		.send(Source, resume, inform_turn(Me)[scheme(Sch)]);
 		.
 
 +!find_nearest_monster(Monster)[scheme(Sch)]
@@ -128,8 +128,6 @@ Attr::attack_bonus(0).
 	<-	!move_towards_monster(Monster)[scheme(Sch)].
 
 in_range(Monster) :- my_name(Me) & Sch::adventurer(Me, H, V) & Sch::monster(Monster, H2, V2) & adj(H, V, H2, V2).
-
-
 
 { include("common-agents.asl") }
 { include("$jacamoJar/templates/common-cartago.asl") }
