@@ -38,10 +38,11 @@ monster_level(4,"bugbear").
         .send(Name, achieve, init_monster[scheme(Sch)]);
         .suspend;
 
-        Sch::roll_dice(1, 6, D1);
-		Sch::roll_dice(1, 6, D2);
-        Sch::add_monsters(Name, 6 + D1, 6 + D2);
-        -+Sch::monsters_spawned(N+1); //usar namespace?
+        ?Sch::mapSize(H,V);
+        Sch::roll_dice(1, math.round(H/2), D1);
+		Sch::roll_dice(1, math.round(V/2), D2);
+        Sch::add_monsters(Name, math.round(H/2) + D1, math.round(H/2) + D2);
+        -+Sch::monsters_spawned(N+1);
         !spawn_monster[scheme(Sch)];
         .
 
@@ -53,10 +54,11 @@ monster_level(4,"bugbear").
         .send(Name, achieve, init_monster[scheme(Sch)]);
         .suspend;
 
-        Sch::roll_dice(1, 6, D1);
-        Sch::roll_dice(1, 6, D2);
-        Sch::add_monsters(Name, 6 + D1, 6 + D2);
-        -+Sch::monsters_spawned(N+1); //usar namespace?
+        ?Sch::mapSize(H,V);
+        Sch::roll_dice(1, math.round(H/2), D1);
+		Sch::roll_dice(1, math.round(V/2), D2);
+        Sch::add_monsters(Name, math.round(H/2) + D1, math.round(H/2) + D2);
+        -+Sch::monsters_spawned(N+1);
         !spawn_monster[scheme(Sch)];
         .
 

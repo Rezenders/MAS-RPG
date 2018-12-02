@@ -17,11 +17,15 @@ public class MapArtifact extends Artifact {
 	int nAdventurer = 0;
 	int nMonster = 0;
 
+	int hSize = 12;
+	int vSize = 12;
+
 	public void init(){
 		defineObsProperty("nAdventurer", nAdventurer);
 		defineObsProperty("nMonster", nMonster);
 		defineObsProperty("adventurersKilled", nMonster);
 		defineObsProperty("monstersKilled", nMonster);
+		defineObsProperty("mapSize", hSize, vSize);
 	}
 
 	@OPERATION

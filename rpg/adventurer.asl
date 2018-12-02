@@ -58,8 +58,9 @@ Attr::attack_bonus(0).
 		lookupArtifact(MId, MArtId);
 		Sch::focus(MArtId);
 
-		Sch::roll_dice(1, 6, D1);
-		Sch::roll_dice(1, 6, D2);
+		?Sch::mapSize(H,V);
+		Sch::roll_dice(1, math.round(H/2), D1);
+		Sch::roll_dice(1, math.round(V/2), D2);
 		Sch::enter_map( D1, D2);
 		.
 
