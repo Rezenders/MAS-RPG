@@ -44,7 +44,7 @@ monster_level(4,"bugbear").
         .print("After being summoned into the town the major tell the adventures what is happening to the city and asks for help.");
         .print("The heroes promptly accept the request.");
         .print("The major tells them that the monsters are hiding in a dungenon nearby and gives them some money to buy new equipaments before going to hunt.");
-        .print("The adventures head to the market of the town and start negotiating with the vendors in order to buy the best possile equipament. \n");
+        // .print("The adventures head to the market of the town and start negotiating with the vendors in order to buy the best possile equipment. \n");
         .
 
 +!vector2string([H|[]], String)
