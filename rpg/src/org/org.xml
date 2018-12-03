@@ -41,6 +41,11 @@
                         <goal id="join_table" />
                     </plan>
                 </goal>
+                <goal id="storyMode">
+                    <plan operator="sequence">
+                        <goal id="tell_story" />
+                    </plan>
+                </goal>
                 <goal id="manageBattle">
                     <plan operator="sequence">
                         <goal id="spawn_monster" />
@@ -60,6 +65,10 @@
             <goal id="join_table"/>
         </mission>
 
+        <mission id="mTellStory" min="1" max="100">
+            <goal id="tell_story"/>
+        </mission>
+
         <mission id="mManageBattle" min="1" max="1">
             <goal id="spawn_monster" />
             <goal id="demand_initiative" />
@@ -74,8 +83,9 @@
         <property id="mission_permission" value="ignore" />
     </properties>
     <norm id="n1" type="obligation" role="master" mission="mSetupTable"/>
-    <norm id="n2" type="obligation" role="adventurer" mission="mCreateAdventurer"/>
-    <norm id="n3" type="obligation" role="master" mission="mManageBattle"/>
+    <norm id="n2" type="obligation" role="master" mission="mTellStory"/>
+    <norm id="n3" type="obligation" role="adventurer" mission="mCreateAdventurer"/>
+    <norm id="n4" type="obligation" role="master" mission="mManageBattle"/>
 </normative-specification>
 
 </organisational-specification>

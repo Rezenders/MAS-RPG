@@ -30,6 +30,32 @@ monster_level(4,"bugbear").
         +Sch::level(1);
 		.
 
++!tell_story[scheme(Sch)]
+    <-  ?Sch::nAdventurer(NA);
+        .findall(N, Sch::adventurer(N,_,_), Adventures);
+        !vector2string(Adventures, SAdventures);
+        .print("This story happens in an age where humans, dragons, elves and all kind of creatures lived together ...");
+        .print("... this tale is about ", NA, " brave adventures named ", SAdventures, " ...");
+        .print("... they were summoned into the town of Makin by the major in order to hunt down the fiercest monsters ...");
+        .print("... the town is being attacked by terrifying creatures every night, the village is desolated ...");
+        .print("... townspeople lost their hope and started fleeing, however, monsters have no mercy and attack them when they try to run ...");
+        .print("... but they shall fear no more ...");
+        .print("... the legendary heroes will eliminate all the creatures and recover the joy of the villagers!!!!!\n");
+        .print("After being summoned into the town the major tell the adventures what is happening to the city and asks for help.");
+        .print("The heroes promptly accept the request.");
+        .print("The major tells them that the monsters are hiding in a dungenon nearby and gives them some money to buy new equipaments before going to hunt.");
+        .print("The adventures head to the market of the town and start negotiating with the vendors in order to buy the best possile equipament. \n");
+        .
+
++!vector2string([H|[]], String)
+    <-  .concat(H, String);
+        .
+
++!vector2string([H|T], String)
+    <-  !vector2string(T,S);
+        .concat(H," and ", S, String);
+        .
+
 +!spawn_monster[scheme(Sch)] : Sch::nAdventurer(NA) & Sch::nMonster(NM) & NM < NA & Sch::level(L) & monster_level(L+1,N2)
     <-  ?Sch::monsters_spawned(N);
         ?monster_level(L, Monster);
