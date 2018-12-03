@@ -36,7 +36,7 @@ monster_level(4,"bugbear").
         !vector2string(Adventures, SAdventures);
         .print("This story happens in an age where humans, dragons, elves and all kind of creatures lived together ...");
         .print("... this tale is about ", NA, " brave adventures named ", SAdventures, " ...");
-        .print("... they were summoned into the town of Makin by the major in order to hunt down the fiercest monsters ...");
+        .print("... they were summoned into the town of Makeem by the major in order to hunt down the fiercest monsters ...");
         .print("... the town is being attacked by terrifying creatures every night, the village is desolated ...");
         .print("... townspeople lost their hope and started fleeing, however, monsters have no mercy and attack them when they try to run ...");
         .print("... but they shall fear no more ...");
