@@ -70,6 +70,9 @@
 </functional-specification>
 
 <normative-specification>
+    <properties>
+        <property id="mission_permission" value="ignore" />
+    </properties>
     <norm id="n1" type="obligation" role="master" mission="mSetupTable"/>
     <norm id="n2" type="obligation" role="adventurer" mission="mCreateAdventurer"/>
     <norm id="n3" type="obligation" role="master" mission="mManageBattle"/>
