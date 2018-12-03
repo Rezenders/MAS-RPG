@@ -5,6 +5,13 @@ import cartago.*;
 import java.util.Map;
 import java.util.HashMap;
 
+import java.awt.Graphics;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.geom.Ellipse2D;
+
 
 public class MapArtifact extends Artifact {
 
@@ -20,12 +27,26 @@ public class MapArtifact extends Artifact {
 	int hSize = 12;
 	int vSize = 12;
 
+	JFrame frame = new JFrame("Rpg");
+	RpgView rpgView = new RpgView();
+
 	public void init(){
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(600,640);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		frame.add(rpgView);
+
 		defineObsProperty("nAdventurer", nAdventurer);
 		defineObsProperty("nMonster", nMonster);
 		defineObsProperty("adventurersKilled", nMonster);
 		defineObsProperty("monstersKilled", nMonster);
 		defineObsProperty("mapSize", hSize, vSize);
+	}
+
+	private void update_map(){
+		rpgView.set_agents(adventurersPosition, monstersPosition);
+		rpgView.repaint();
 	}
 
 	@OPERATION
@@ -37,6 +58,7 @@ public class MapArtifact extends Artifact {
 
 		nAdventurer = nAdventurer + 1;
 		getObsProperty("nAdventurer").updateValue(nAdventurer);
+		update_map();
 	}
 
 	@OPERATION
@@ -47,6 +69,7 @@ public class MapArtifact extends Artifact {
 
 		nMonster = nMonster + 1;
 		getObsProperty("nMonster").updateValue(nMonster);
+		update_map();
 	}
 
 	@OPERATION
@@ -70,6 +93,7 @@ public class MapArtifact extends Artifact {
 			nAdventurer = nAdventurer -1;
 			getObsProperty("nAdventurer").updateValue(nAdventurer);
 		}
+		update_map();
 	}
 
 	@OPERATION
@@ -85,6 +109,7 @@ public class MapArtifact extends Artifact {
 			adventurersPosition.put(agentName, agentPos);
 			getObsPropertyByTemplate("adventurer", agentName, posp.h, posp.v).updateValues(agentName, h, v);
 		}
+		update_map();
 	}
 }
 
@@ -96,4 +121,33 @@ class Position{
 		h = h1;
 		v = v1;
 	}
+}
+
+class RpgView extends JPanel {
+	Map<String,Position> adventurersPosition = new HashMap<String,Position>();
+	Map<String,Position> monstersPosition = new HashMap<String,Position>();
+
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+		int diameter = 50;
+
+		Position pos = new Position(0,0);
+		for (Map.Entry<String, Position> entry : adventurersPosition.entrySet()){
+			pos = entry.getValue();
+			g2.setColor(Color.BLUE);
+			g2.fill(new Ellipse2D.Double((pos.h-1)*diameter, (pos.v-1)*diameter, diameter, diameter));
+		}
+		for (Map.Entry<String, Position> entry : monstersPosition.entrySet()){
+			pos = entry.getValue();
+			g2.setColor(Color.RED);
+			g2.fill(new Ellipse2D.Double((pos.h-1)*diameter, (pos.v-1)*diameter, diameter, diameter));
+		}
+
+    }
+
+    public void set_agents(Map<String,Position> aP, Map<String,Position> mP){
+        adventurersPosition = aP;
+        monstersPosition = mP;
+    }
 }
