@@ -45,15 +45,28 @@
 		!calc_distances(X,Y,T, D2);
 		.concat([[D,X2,Y2]], D2, Dists);
 		.
+
 +!calc_distances(X, Y, [], Dists)
-	<- Dists = [].
+	<-	Dists = [].
 
 +!best_move(Dists, X, Y)
 	<-	.min(Dists,D);
 		D = [D2, X, Y];
 		.
 
++!move(X, Y, [H|T])[scheme(Sch)]
+	<-	H = [D, X2, Y2];
+		if(isOcuppied(X2,Y2)){
+			!move(X,Y,T)[scheme(Sch)]
+		}else{
+			.my_name(Me);
+			Sch::move(Me, X2, Y2);
+			.print("Moving from [",X,",",Y,"] to ","[",X2,",",Y2,"]");
+		}
+		.
 
++!move(X, Y, [])[scheme(Sch)]
+	<- .print("Not moving").
 
 adj(X1,Y,X2,Y) :- X2 == X1+1.
 adj(X1,Y,X2,Y) :- X2 == X1-1.

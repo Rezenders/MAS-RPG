@@ -49,10 +49,9 @@
 		?my_name(Me); ?Sch::monster(Me, X, Y);
 		?Sch::adventurer(Adventurer, X2, Y2);
 		!move_possibilities(X, Y, P);
-		!calc_distances(X2, Y2, P, Dists);
-		!best_move(Dists, BX, BY);
-		.print("Moving from [",X,",",Y,"] to ","[",BX,",",BY,"]");
-		Sch::move(Me, BX, BY);
+		!calc_distances(X2, Y2, P, UDists);
+		.sort(UDists, Dists);
+		!move(X, Y, Dists)[scheme(Sch)];
 		.
 
 +!move_towards_adventurer(Adventurer)[scheme(Sch)].
